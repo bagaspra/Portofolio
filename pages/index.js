@@ -20,6 +20,7 @@ import { useState } from 'react';
 
 export default function Home() {
   const [darkMode, setDarkMode] = useState(false);
+  const prefix = '/Portofolio';
 
   return (
     <div className={darkMode ? 'dark' : ''}>
@@ -68,7 +69,7 @@ export default function Home() {
             <AiFillInstagram />
           </div>
           <div className="relative mx-auto bg-gradient-to-b from-teal-500 rounded-full w-80 h-80 mt-20 overflow-hidden md:h-96 md:w-96">
-            <Image src={deved} layout="fill" objectFit="cover" />
+            <Image src={prefix + deved} layout="fill" objectFit="cover" />
           </div>
         </section>
 
@@ -92,7 +93,7 @@ export default function Home() {
           {/* Card 1 */}
           <div className="lg:flex gap-10">
             <div className="text-centers shadow-lg p-10 rounded-xl my-10 dark:bg-white">
-              <Image src={design} width={100} height={100} />
+              <Image src={prefix + design} width={100} height={100} />
               <h3 className="text-lg font-medium pt-8 pb-2">
                 Beautiful Design
               </h3>
@@ -108,7 +109,7 @@ export default function Home() {
 
             {/* Card 2 */}
             <div className="text-centers shadow-lg p-10 rounded-xl my-10 dark:bg-white">
-              <Image src={code} width={100} height={100} />
+              <Image src={prefix + code} width={100} height={100} />
               <h3 className="text-lg font-medium pt-8 pb-2">
                 Beautiful Design
               </h3>
@@ -123,7 +124,7 @@ export default function Home() {
             </div>
             {/* Card 3 */}
             <div className="text-centers shadow-lg p-10 rounded-xl my-10 dark:bg-white">
-              <Image src={consulting} width={100} height={100} />
+              <Image src={prefix + consulting} width={100} height={100} />
               <h3 className="text-lg font-medium pt-8 pb-2">
                 Beautiful Design
               </h3>
@@ -159,7 +160,7 @@ export default function Home() {
           <div className="flex flex-col gap-10 py-10 lg:flex-row lg:flex-wrap">
             <div className="basis-1/3 flex-1">
               <Image
-                src={web1}
+                src={prefix + web1}
                 className="rounded-lg object-cover"
                 width={'100%'}
                 height={'100%'}
@@ -168,7 +169,7 @@ export default function Home() {
             </div>
             <div className="basis-1/3 flex-1">
               <Image
-                src={web2}
+                src={prefix + web2}
                 className="rounded-lg object-cover"
                 width={'100%'}
                 height={'100%'}
@@ -177,7 +178,7 @@ export default function Home() {
             </div>
             <div className="basis-1/3 flex-1">
               <Image
-                src={web3}
+                src={prefix + web3}
                 className="rounded-lg object-cover"
                 width={'100%'}
                 height={'100%'}
@@ -186,7 +187,7 @@ export default function Home() {
             </div>
             <div className="basis-1/3 flex-1">
               <Image
-                src={web4}
+                src={prefix + web4}
                 className="rounded-lg object-cover"
                 width={'100%'}
                 height={'100%'}
@@ -195,7 +196,7 @@ export default function Home() {
             </div>
             <div className="basis-1/3 flex-1">
               <Image
-                src={web5}
+                src={prefix + web5}
                 className="rounded-lg object-cover"
                 width={'100%'}
                 height={'100%'}
@@ -204,7 +205,7 @@ export default function Home() {
             </div>
             <div className="basis-1/3 flex-1">
               <Image
-                src={web6}
+                src={prefix + web6}
                 className="rounded-lg object-cover"
                 width={'100%'}
                 height={'100%'}
