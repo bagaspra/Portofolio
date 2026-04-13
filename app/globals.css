@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+:root {
+  --bg-page: #EFEFEB;
+  --bg-nav: #1C1C1E;
+  --bg-card: #FFFFFF;
+  --accent-blue: #185FA5;
+  --accent-mid: #378ADD;
+  --text-primary: #1C1C1E;
+  --text-muted: #888888;
+  --text-hint: #AAAAAA;
+  --border: rgba(0,0,0,0.07);
+
+  --radius-pill: 9999px;
+  --radius-card: 16px;
+  --radius-sm: 10px;
+}
+
+body {
+  background-color: #ffffff;
+  background-image: linear-gradient(rgba(0,0,0,0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.055) 1px, transparent 1px);
+  background-size: 40px 40px;
+  min-height: 100vh;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+}
+
+@layer utilities {
+  .floating-nav {
+    box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+  }
+  
+  .marquee-track {
+    animation: scroll 20s linear infinite;
+  }
+  
+  @keyframes scroll { 
+    from { transform: translateX(0); } 
+    to { transform: translateX(-50%); } 
+  }
+  
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

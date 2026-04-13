@@ -1,0 +1,213 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  .wrap { font-family: var(--font-sans); background-color: #ffffff; background-image: linear-gradient(rgba(0,0,0,0.055) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.055) 1px, transparent 1px); background-size: 40px 40px; min-height: 600px; }
+  .browser-bar { background: white; border-bottom: 0.5px solid #e5e5e5; padding: 10px 16px; display: flex; align-items: center; gap: 10px; border-radius: 12px 12px 0 0; }
+  .dots { display: flex; gap: 5px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #ddd; }
+  .url-bar { flex: 1; background: #f5f5f5; border: 0.5px solid #e5e5e5; border-radius: 20px; padding: 4px 12px; font-size: 12px; color: #999; }
+
+  .page { background-color: transparent; }
+
+  .nav-wrap { display: flex; justify-content: center; padding: 24px 0 0; }
+  .floating-nav { background: #1C1C1E; border-radius: 50px; padding: 8px 8px 8px 20px; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 24px rgba(0,0,0,0.13); }
+  .nav-item { font-size: 12px; color: rgba(255,255,255,0.55); padding: 6px 12px; border-radius: 50px; }
+  .nav-item.active { color: white; background: rgba(255,255,255,0.12); }
+  .nav-dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(255,255,255,0.2); }
+  .nav-resume { background: rgba(255,255,255,0.13); color: white; font-size: 11px; padding: 7px 14px; border-radius: 50px; border: 0.5px solid rgba(255,255,255,0.18); }
+
+  .hero { text-align: center; padding: 52px 40px 36px; }
+  .hero-line { font-size: 26px; color: #1C1C1E; line-height: 1.5; margin-bottom: 6px; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .hero-line .name { font-weight: 600; }
+  .avatar-inline { width: 36px; height: 36px; border-radius: 50%; background: #c9d4e0; border: 2px solid #a0b4c8; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #3a5a78; flex-shrink: 0; }
+  .hero-role { font-size: 20px; color: #6B6B6B; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+  .role-badge { background: #1C1C1E; color: white; font-size: 13px; font-weight: 500; padding: 5px 14px; border-radius: 50px; display: flex; align-items: center; gap: 6px; }
+  .badge-dot-blue { width: 7px; height: 7px; border-radius: 50%; background: #378ADD; }
+  .badge-dot-green { width: 7px; height: 7px; border-radius: 50%; background: #5DCAA5; }
+  .hero-desc { font-size: 13px; color: #888; max-width: 500px; margin: 16px auto 0; line-height: 1.7; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 5px; }
+  .kw { background: white; border: 0.5px solid #ddd; color: #1C1C1E; font-size: 11px; padding: 2px 9px; border-radius: 50px; font-weight: 500; white-space: nowrap; }
+  .kw.blue { background: #E6F1FB; border-color: #B5D4F4; color: #185FA5; }
+  .cta-row { display: flex; gap: 8px; justify-content: center; margin-top: 22px; }
+  .btn-dark { background: #1C1C1E; color: white; font-size: 12px; padding: 9px 20px; border-radius: 50px; display: flex; align-items: center; gap: 6px; }
+  .btn-light { background: white; color: #1C1C1E; font-size: 12px; padding: 9px 20px; border-radius: 50px; border: 0.5px solid #ddd; display: flex; align-items: center; gap: 6px; }
+
+  .marquee-wrap { overflow: hidden; border-top: 0.5px solid rgba(0,0,0,0.08); border-bottom: 0.5px solid rgba(0,0,0,0.08); padding: 11px 0; margin-top: 28px; background: rgba(255,255,255,0.7); }
+  .marquee-track { display: flex; gap: 28px; animation: scroll 20s linear infinite; width: max-content; }
+  .marquee-item { font-size: 12px; color: #888; white-space: nowrap; display: flex; align-items: center; gap: 8px; }
+  .marquee-item::before { content: '·'; color: #378ADD; font-size: 16px; }
+  @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  .section { padding: 30px 28px; }
+  .sec-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .sec-label { font-size: 11px; color: #378ADD; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+  .sec-tabs { display: flex; gap: 4px; }
+  .sec-tab { font-size: 10px; padding: 4px 11px; border-radius: 50px; color: #888; background: rgba(255,255,255,0.8); border: 0.5px solid rgba(0,0,0,0.09); }
+  .sec-tab.active { background: #1C1C1E; color: white; border-color: transparent; }
+
+  .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .pcard { background: white; border-radius: 16px; overflow: hidden; border: 0.5px solid rgba(0,0,0,0.07); box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+  .pcard-img { height: 72px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+  .pcard-img.web { background: #F5F5F5; }
+  .pcard-img.ai { background: #E6F1FB; }
+  .pcard-img.combo { background: #EAF3DE; }
+  .pcard-body { padding: 10px 12px 12px; }
+  .pcard-cat { font-size: 10px; padding: 2px 7px; border-radius: 20px; display: inline-block; margin-bottom: 5px; }
+  .cat-w { background: #F0F0F0; color: #555; }
+  .cat-a { background: #E6F1FB; color: #185FA5; }
+  .cat-c { background: #EAF3DE; color: #3B6D11; }
+  .pcard-name { font-size: 12px; font-weight: 500; color: #1C1C1E; }
+  .pcard-desc { font-size: 11px; color: #999; margin-top: 2px; line-height: 1.5; }
+  .pcard-links { display: flex; gap: 5px; margin-top: 8px; }
+  .pl { font-size: 10px; padding: 3px 9px; border-radius: 20px; background: #F5F5F5; color: #555; }
+
+  .divider { border: none; border-top: 0.5px solid rgba(0,0,0,0.08); margin: 0 28px; }
+
+  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .skill-group { background: white; border-radius: 14px; padding: 14px 16px; border: 0.5px solid rgba(0,0,0,0.07); box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+  .skill-group-title { font-size: 11px; font-weight: 500; color: #1C1C1E; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .sg-dot { width: 7px; height: 7px; border-radius: 50%; }
+  .sg-blue { background: #378ADD; }
+  .sg-green { background: #5DCAA5; }
+  .sg-purple { background: #7F77DD; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .skill-tag { font-size: 10px; background: #F5F5F5; color: #555; padding: 3px 9px; border-radius: 20px; }
+
+  .timeline { display: flex; flex-direction: column; }
+  .tl-item { display: flex; gap: 14px; padding-bottom: 22px; }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-left { display: flex; flex-direction: column; align-items: center; }
+  .tl-dot { width: 9px; height: 9px; border-radius: 50%; background: #378ADD; flex-shrink: 0; margin-top: 3px; }
+  .tl-line { width: 1px; flex: 1; background: rgba(0,0,0,0.1); margin-top: 5px; }
+  .tl-body { flex: 1; }
+  .tl-title { font-size: 12px; font-weight: 500; color: #1C1C1E; }
+  .tl-sub { font-size: 11px; color: #888; margin-top: 2px; }
+  .tl-date { font-size: 10px; color: #378ADD; margin-top: 3px; background: #E6F1FB; display: inline-block; padding: 2px 8px; border-radius: 20px; }
+
+  .contact-section { padding: 30px 28px 36px; }
+  .contact-desc { font-size: 13px; color: #888; margin-bottom: 18px; }
+  .contact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .contact-card { background: white; border: 0.5px solid rgba(0,0,0,0.07); border-radius: 14px; padding: 14px 16px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+  .contact-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+  .ic-li { background: #E6F1FB; }
+  .ic-gh { background: #F0F0F0; }
+  .ic-tw { background: #E6F1FB; }
+  .ic-em { background: #EAF3DE; }
+  .contact-info { flex: 1; }
+  .contact-name { font-size: 12px; font-weight: 500; color: #1C1C1E; }
+  .contact-handle { font-size: 11px; color: #aaa; margin-top: 1px; }
+  .contact-arrow { font-size: 12px; color: #ccc; }
+
+  .footer { text-align: center; padding: 14px; font-size: 11px; color: #aaa; border-top: 0.5px solid rgba(0,0,0,0.08); background: rgba(255,255,255,0.6); }
+  .footer span { color: #378ADD; }
+</style>
+
+<div class="wrap">
+  <div class="browser-bar">
+    <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    <div class="url-bar">bagasprasetyo.vercel.app</div>
+    <span style="font-size:10px;background:#E6F1FB;color:#185FA5;padding:3px 10px;border-radius:20px;white-space:nowrap;">ID / EN</span>
+  </div>
+  <div class="page">
+
+    <div class="nav-wrap">
+      <div class="floating-nav">
+        <span class="nav-item active">Home</span>
+        <div class="nav-dot"></div>
+        <span class="nav-item">Projects</span>
+        <div class="nav-dot"></div>
+        <span class="nav-item">Skills</span>
+        <div class="nav-dot"></div>
+        <span class="nav-item">Experience</span>
+        <div class="nav-dot"></div>
+        <span class="nav-item">Contact</span>
+        <div class="nav-resume">View Resume</div>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="hero-line">
+        Hello, I'm <span class="name">Bagas Prasetyo</span>
+        <div class="avatar-inline">BP</div>
+      </div>
+      <div class="hero-role">
+        Full-Stack Developer &amp;
+        <div class="role-badge"><div class="badge-dot-blue"></div>AI Engineer</div>
+      </div>
+      <div class="hero-role" style="margin-top:4px;font-size:18px;">
+        Building intelligent
+        <div class="role-badge" style="font-size:12px;"><div class="badge-dot-green"></div>Web Applications</div>
+      </div>
+      <div class="hero-desc">
+        Specializing in <span class="kw">Web Development</span>,
+        <span class="kw blue">Machine Learning</span>, and
+        <span class="kw">AI-powered apps</span>
+        — from frontend to ML pipelines.
+      </div>
+      <div class="cta-row">
+        <div class="btn-dark">👀 View Projects</div>
+        <div class="btn-light">📋 Copy email</div>
+      </div>
+    </div>
+
+    <div class="marquee-wrap">
+      <div class="marquee-track">
+        <span class="marquee-item">Next.js</span><span class="marquee-item">React</span><span class="marquee-item">Machine Learning</span><span class="marquee-item">TypeScript</span><span class="marquee-item">Python</span><span class="marquee-item">LangChain</span><span class="marquee-item">FastAPI</span><span class="marquee-item">PyTorch</span><span class="marquee-item">HuggingFace</span><span class="marquee-item">Tailwind CSS</span>
+        <span class="marquee-item">Next.js</span><span class="marquee-item">React</span><span class="marquee-item">Machine Learning</span><span class="marquee-item">TypeScript</span><span class="marquee-item">Python</span><span class="marquee-item">LangChain</span><span class="marquee-item">FastAPI</span><span class="marquee-item">PyTorch</span><span class="marquee-item">HuggingFace</span><span class="marquee-item">Tailwind CSS</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="sec-header">
+        <span class="sec-label">Projects</span>
+        <div class="sec-tabs">
+          <div class="sec-tab active">All</div>
+          <div class="sec-tab">Web Dev</div>
+          <div class="sec-tab">AI / ML</div>
+          <div class="sec-tab">Web + AI</div>
+        </div>
+      </div>
+      <div class="cards-grid">
+        <div class="pcard"><div class="pcard-img web">🌐</div><div class="pcard-body"><div class="pcard-cat cat-w">Web Dev</div><div class="pcard-name">E-Commerce Dashboard</div><div class="pcard-desc">Admin panel dengan React & Node.js</div><div class="pcard-links"><div class="pl">GitHub</div><div class="pl">Live Demo</div></div></div></div>
+        <div class="pcard"><div class="pcard-img ai">🤖</div><div class="pcard-body"><div class="pcard-cat cat-a">AI / ML</div><div class="pcard-name">Sentiment Analysis</div><div class="pcard-desc">NLP model untuk analisis ulasan produk</div><div class="pcard-links"><div class="pl">GitHub</div><div class="pl">Live Demo</div></div></div></div>
+        <div class="pcard"><div class="pcard-img combo">✨</div><div class="pcard-body"><div class="pcard-cat cat-c">Web + AI</div><div class="pcard-name">AI Chat App</div><div class="pcard-desc">Aplikasi chat berbasis LLM + Next.js</div><div class="pcard-links"><div class="pl">GitHub</div><div class="pl">Live Demo</div></div></div></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section">
+      <div class="sec-header"><span class="sec-label">Skills</span></div>
+      <div class="skills-grid">
+        <div class="skill-group"><div class="skill-group-title"><div class="sg-dot sg-blue"></div>Frontend</div><div class="skill-tags"><div class="skill-tag">React</div><div class="skill-tag">Next.js</div><div class="skill-tag">TypeScript</div><div class="skill-tag">Tailwind</div></div></div>
+        <div class="skill-group"><div class="skill-group-title"><div class="sg-dot sg-green"></div>Backend</div><div class="skill-tags"><div class="skill-tag">Node.js</div><div class="skill-tag">Python</div><div class="skill-tag">FastAPI</div><div class="skill-tag">PostgreSQL</div></div></div>
+        <div class="skill-group"><div class="skill-group-title"><div class="sg-dot sg-purple"></div>AI / ML</div><div class="skill-tags"><div class="skill-tag">PyTorch</div><div class="skill-tag">Scikit-learn</div><div class="skill-tag">LangChain</div><div class="skill-tag">HuggingFace</div></div></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section">
+      <div class="sec-header"><span class="sec-label">Experience & Education</span></div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-body"><div class="tl-title">Full-Stack Developer — Company Name</div><div class="tl-sub">Membangun aplikasi web skala besar</div><div class="tl-date">2023 – Sekarang</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-dot"></div><div class="tl-line"></div></div><div class="tl-body"><div class="tl-title">ML Engineer Intern — Company Name</div><div class="tl-sub">Pengembangan model prediktif & pipeline data</div><div class="tl-date">2022 – 2023</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-dot"></div></div><div class="tl-body"><div class="tl-title">S1 Ilmu Komputer — Universitas</div><div class="tl-sub">Fokus pada rekayasa perangkat lunak & kecerdasan buatan</div><div class="tl-date">2018 – 2022</div></div></div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="contact-section">
+      <div class="sec-label" style="margin-bottom:10px;">Contact</div>
+      <div class="contact-desc">Let's connect and build something great together.</div>
+      <div class="contact-grid">
+        <div class="contact-card"><div class="contact-icon ic-li">💼</div><div class="contact-info"><div class="contact-name">LinkedIn</div><div class="contact-handle">linkedin.com/in/bagasprasetyo</div></div><div class="contact-arrow">↗</div></div>
+        <div class="contact-card"><div class="contact-icon ic-gh">🐙</div><div class="contact-info"><div class="contact-name">GitHub</div><div class="contact-handle">github.com/bagasprasetyo</div></div><div class="contact-arrow">↗</div></div>
+        <div class="contact-card"><div class="contact-icon ic-tw">𝕏</div><div class="contact-info"><div class="contact-name">Twitter / X</div><div class="contact-handle">@bagasprasetyo</div></div><div class="contact-arrow">↗</div></div>
+        <div class="contact-card"><div class="contact-icon ic-em">✉️</div><div class="contact-info"><div class="contact-name">Email</div><div class="contact-handle">bagasprasetyo36@gmail.com</div></div><div class="contact-arrow">↗</div></div>
+      </div>
+    </div>
+
+    <div class="footer">© 2026 <span>Bagas Prasetyo</span> · Built with <span>Next.js</span> · Deployed on <span>Vercel</span></div>
+  </div>
+</div>
