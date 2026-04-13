@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Github, Linkedin, Twitter, Mail, ExternalLink, Eye, Copy, Code2, BrainCircuit, Layers } from "lucide-react";
+import { Github, Linkedin, Twitter, Instagram, Mail, ExternalLink, Eye, Copy, Code2, BrainCircuit, Layers } from "lucide-react";
 import { toast } from "sonner";
 import type { HeroData, Project, SkillGroup, Experience, ContactLink } from "@/types/index";
 
@@ -253,10 +253,11 @@ export default function PortfolioClient({ data }: Props) {
             if (platform.includes('github')) IconComponent = Github;
             if (platform.includes('linkedin')) IconComponent = Linkedin;
             if (platform.includes('twitter') || platform.includes(' x')) IconComponent = Twitter;
+            if (platform.includes('instagram')) IconComponent = Instagram;
 
             return (
               <a href={c.url} target="_blank" rel="noopener noreferrer" key={c.id} className="bg-white border border-black/10 rounded-[14px] p-3.5 flex items-center gap-3 shadow-sm hover:shadow-md transition group">
-                <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${platform.includes('linkedin') || platform.includes('twitter') ? 'bg-[#E6F1FB] text-[#378ADD]' : platform.includes('github') ? 'bg-[#F0F0F0] text-gray-900' : 'bg-[#EAF3DE] text-[#3B6D11]'}`}>
+                <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${platform.includes('linkedin') || platform.includes('twitter') ? 'bg-[#E6F1FB] text-[#378ADD]' : platform.includes('github') ? 'bg-[#F0F0F0] text-gray-900' : platform.includes('instagram') ? 'bg-[#FDE8F0] text-[#E1306C]' : 'bg-[#EAF3DE] text-[#3B6D11]'}`}>
                   <IconComponent size={18} strokeWidth={2} />
                 </div>
                 <div className="flex-1">
