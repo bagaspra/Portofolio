@@ -130,7 +130,7 @@ export default function PortfolioClient({ data }: Props) {
           </div>
         </div>
 
-        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <AnimatePresence mode="popLayout">
             {projects.filter(p => activeTab === "All" || (activeTab === "Web Dev" ? p.category === "web" : activeTab === "AI / ML" ? p.category === "ai" : p.category === "combo")).map((p) => (
               <motion.div 
@@ -142,10 +142,20 @@ export default function PortfolioClient({ data }: Props) {
                 key={p.id} 
                 className="bg-white rounded-2xl overflow-hidden border border-black/10 shadow-sm hover:shadow-md transition"
               >
-                <div className={`h-[72px] flex items-center justify-center ${p.category === 'web' ? 'bg-[#F5F5F5] text-gray-500' : p.category === 'ai' ? 'bg-[#E6F1FB] text-[#378ADD]' : 'bg-[#EAF3DE] text-[#3B6D11]'}`}>
-                  {p.category === 'web' && <Code2 size={28} strokeWidth={1.5} />}
-                  {p.category === 'ai' && <BrainCircuit size={28} strokeWidth={1.5} />}
-                  {p.category === 'combo' && <Layers size={28} strokeWidth={1.5} />}
+                <div className={`h-[180px] relative flex items-center justify-center overflow-hidden ${p.category === 'web' ? 'bg-[#F5F5F5] text-gray-500' : p.category === 'ai' ? 'bg-[#E6F1FB] text-[#378ADD]' : 'bg-[#EAF3DE] text-[#3B6D11]'}`}>
+                  {p.thumbnail_emoji ? (
+                    <img
+                      src={p.thumbnail_emoji}
+                      alt={p.name}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <>
+                      {p.category === 'web' && <Code2 size={28} strokeWidth={1.5} />}
+                      {p.category === 'ai' && <BrainCircuit size={28} strokeWidth={1.5} />}
+                      {p.category === 'combo' && <Layers size={28} strokeWidth={1.5} />}
+                    </>
+                  )}
                 </div>
                 <div className="p-3">
                   <div className={`text-[10px] px-2 py-0.5 rounded-full inline-block mb-1.5 ${p.category === 'web' ? 'bg-[#F0F0F0] text-gray-600' : p.category === 'ai' ? 'bg-[#E6F1FB] text-[#185FA5]' : 'bg-[#EAF3DE] text-[#3B6D11]'}`}>
