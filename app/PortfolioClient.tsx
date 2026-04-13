@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { Github, Linkedin, Twitter, Mail, ExternalLink, Eye, Copy, Code2, BrainCircuit, Layers } from "lucide-react";
+import { toast } from "sonner";
 import type { HeroData, Project, SkillGroup, Experience, ContactLink } from "@/types/index";
 
 interface Props {
@@ -17,7 +19,6 @@ interface Props {
 export default function PortfolioClient({ data }: Props) {
   const { hero, projects, skillGroups, experience, contact } = data;
   const [activeTab, setActiveTab] = useState("All");
-  const [lang, setLang] = useState("ID / EN");
 
   const filterProjects = () => {
     if (activeTab === "All") return projects;
@@ -29,7 +30,7 @@ export default function PortfolioClient({ data }: Props) {
 
   const ctaCopyEmail = () => {
     navigator.clipboard.writeText(hero.email);
-    alert("Email di-copy!");
+    toast.success("Email copied to clipboard!");
   };
 
   return (
@@ -52,7 +53,6 @@ export default function PortfolioClient({ data }: Props) {
           <div className="w-[3px] h-[3px] rounded-full bg-white/20"></div>
           <a href="#contact" className="text-xs text-white/55 px-3 py-1.5 rounded-full hover:bg-white/10 hover:text-white transition">Contact</a>
           <a href={hero.cv_url} target="_blank" className="bg-white/10 text-white text-[11px] px-3.5 py-1.5 rounded-full border border-white/20 hover:bg-white/20 transition ml-2">Resume</a>
-          <button onClick={() => setLang(lang === 'ID' ? 'EN' : 'ID')} className="text-[10px] bg-[#E6F1FB] text-[#185FA5] px-2.5 py-1 rounded-full whitespace-nowrap ml-1">{lang}</button>
         </div>
       </motion.div>
 
@@ -89,11 +89,11 @@ export default function PortfolioClient({ data }: Props) {
         </motion.div>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }} className="flex gap-2 justify-center mt-6 z-10 relative">
-          <a href="#projects" className="bg-[#1C1C1E] text-white text-xs px-5 py-2.5 rounded-full flex items-center gap-1.5 hover:bg-black transition">
-            👀 View Projects
+          <a href="#projects" className="bg-[#1C1C1E] text-white text-xs px-5 py-2.5 rounded-full flex items-center gap-2 hover:bg-black transition">
+            <Eye size={14} /> View Projects
           </a>
-          <button onClick={ctaCopyEmail} className="bg-white text-[#1C1C1E] border border-gray-300 text-xs px-5 py-2.5 rounded-full flex items-center gap-1.5 hover:bg-gray-50 transition cursor-pointer">
-            📋 Copy Email
+          <button onClick={ctaCopyEmail} className="bg-white text-[#1C1C1E] border border-gray-300 text-xs px-5 py-2.5 rounded-full flex items-center gap-2 hover:bg-gray-50 transition cursor-pointer">
+            <Copy size={14} /> Copy Email
           </button>
         </motion.div>
       </div>
@@ -132,7 +132,7 @@ export default function PortfolioClient({ data }: Props) {
 
         <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           <AnimatePresence mode="popLayout">
-            {filterProjects().map((p) => (
+            {projects.filter(p => activeTab === "All" || (activeTab === "Web Dev" ? p.category === "web" : activeTab === "AI / ML" ? p.category === "ai" : p.category === "combo")).map((p) => (
               <motion.div 
                 layout
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -142,8 +142,10 @@ export default function PortfolioClient({ data }: Props) {
                 key={p.id} 
                 className="bg-white rounded-2xl overflow-hidden border border-black/10 shadow-sm hover:shadow-md transition"
               >
-                <div className={`h-[72px] flex items-center justify-center text-3xl ${p.category === 'web' ? 'bg-[#F5F5F5]' : p.category === 'ai' ? 'bg-[#E6F1FB]' : 'bg-[#EAF3DE]'}`}>
-                  {p.thumbnail_emoji}
+                <div className={`h-[72px] flex items-center justify-center ${p.category === 'web' ? 'bg-[#F5F5F5] text-gray-500' : p.category === 'ai' ? 'bg-[#E6F1FB] text-[#378ADD]' : 'bg-[#EAF3DE] text-[#3B6D11]'}`}>
+                  {p.category === 'web' && <Code2 size={28} strokeWidth={1.5} />}
+                  {p.category === 'ai' && <BrainCircuit size={28} strokeWidth={1.5} />}
+                  {p.category === 'combo' && <Layers size={28} strokeWidth={1.5} />}
                 </div>
                 <div className="p-3">
                   <div className={`text-[10px] px-2 py-0.5 rounded-full inline-block mb-1.5 ${p.category === 'web' ? 'bg-[#F0F0F0] text-gray-600' : p.category === 'ai' ? 'bg-[#E6F1FB] text-[#185FA5]' : 'bg-[#EAF3DE] text-[#3B6D11]'}`}>
@@ -152,9 +154,29 @@ export default function PortfolioClient({ data }: Props) {
                   <div className="text-xs font-semibold text-gray-900">{p.name}</div>
                   <div className="text-[11px] text-gray-400 mt-1 leading-relaxed line-clamp-2">{p.description}</div>
                   {(p.github_url || p.demo_url) && (
-                    <div className="flex gap-1.5 mt-2.5">
-                      {p.github_url && <a href={p.github_url} target="_blank" className="text-[10px] px-2.5 py-1 rounded-full bg-[#F5F5F5] text-gray-600 hover:bg-gray-200 transition">GitHub</a>}
-                      {p.demo_url && <a href={p.demo_url} target="_blank" className="text-[10px] px-2.5 py-1 rounded-full bg-[#F5F5F5] text-gray-600 hover:bg-gray-200 transition">Live Demo</a>}
+                    <div className="flex gap-2 mt-4 pt-3 border-t border-black/5">
+                      {p.github_url && (
+                        <a 
+                          href={p.github_url} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1.5 text-[10px] font-medium px-3 py-1.5 rounded-lg bg-[#1C1C1E] text-white hover:bg-black transition shadow-sm"
+                        >
+                          <Github size={12} strokeWidth={2.5} />
+                          GitHub
+                        </a>
+                      )}
+                      {p.demo_url && (
+                        <a 
+                          href={p.demo_url} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1.5 text-[10px] font-medium px-3 py-1.5 rounded-lg bg-white border border-black/10 text-gray-700 hover:bg-gray-50 transition shadow-sm"
+                        >
+                          <ExternalLink size={12} strokeWidth={2.5} />
+                          Live Demo
+                        </a>
+                      )}
                     </div>
                   )}
                 </div>
@@ -173,7 +195,7 @@ export default function PortfolioClient({ data }: Props) {
           {skillGroups.map((g, i) => (
             <div key={g.id} className="bg-white rounded-[14px] p-4 border border-black/10 shadow-sm">
               <div className="text-[11px] font-semibold text-gray-900 mb-3 flex items-center gap-1.5">
-                <div className={`w-2 h-2 rounded-full ${i%3===0 ? 'bg-[#378ADD]' : i%3===1 ? 'bg-[#5DCAA5]' : 'bg-[#7F77DD]'}`}></div>
+                <div className={`w-2 h-2 rounded-full ${i % 3 === 0 ? 'bg-[#378ADD]' : i % 3 === 1 ? 'bg-[#5DCAA5]' : 'bg-[#7F77DD]'}`}></div>
                 {g.name}
               </div>
               <div className="flex flex-wrap gap-1.5">
@@ -215,18 +237,26 @@ export default function PortfolioClient({ data }: Props) {
         <div className="mb-2"><span className="text-[11px] text-[#378ADD] font-medium tracking-widest uppercase">Contact</span></div>
         <div className="text-[13px] text-gray-500 mb-5">Let's connect and build something great together.</div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          {contact.map((c) => (
-            <a href={c.url} target="_blank" rel="noopener noreferrer" key={c.id} className="bg-white border border-black/10 rounded-[14px] p-3.5 flex items-center gap-3 shadow-sm hover:shadow-md transition">
-              <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-lg shrink-0 ${c.platform.toLowerCase().includes('linkedin') || c.platform.toLowerCase().includes('twitter') ? 'bg-[#E6F1FB]' : c.platform.toLowerCase().includes('git') ? 'bg-[#F0F0F0]' : 'bg-[#EAF3DE]'}`}>
-                {c.icon || (c.platform.toLowerCase().includes('linkedin') ? '💼' : c.platform.toLowerCase().includes('git') ? '🐙' : c.platform.toLowerCase().includes('twitter') ? '𝕏' : '✉️')}
-              </div>
-              <div className="flex-1">
-                <div className="text-xs font-semibold text-gray-900">{c.platform}</div>
-                <div className="text-[11px] text-gray-400">{c.handle}</div>
-              </div>
-              <div className="text-gray-300 text-xs">↗</div>
-            </a>
-          ))}
+          {contact.map((c) => {
+            const platform = c.platform.toLowerCase();
+            let IconComponent = Mail;
+            if (platform.includes('github')) IconComponent = Github;
+            if (platform.includes('linkedin')) IconComponent = Linkedin;
+            if (platform.includes('twitter') || platform.includes(' x')) IconComponent = Twitter;
+
+            return (
+              <a href={c.url} target="_blank" rel="noopener noreferrer" key={c.id} className="bg-white border border-black/10 rounded-[14px] p-3.5 flex items-center gap-3 shadow-sm hover:shadow-md transition group">
+                <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${platform.includes('linkedin') || platform.includes('twitter') ? 'bg-[#E6F1FB] text-[#378ADD]' : platform.includes('github') ? 'bg-[#F0F0F0] text-gray-900' : 'bg-[#EAF3DE] text-[#3B6D11]'}`}>
+                  <IconComponent size={18} strokeWidth={2} />
+                </div>
+                <div className="flex-1">
+                  <div className="text-xs font-semibold text-gray-900">{c.platform}</div>
+                  <div className="text-[11px] text-gray-400">{c.handle}</div>
+                </div>
+                <ExternalLink size={12} className="text-gray-300 group-hover:text-gray-500 transition" />
+              </a>
+            );
+          })}
         </div>
       </motion.div>
 
