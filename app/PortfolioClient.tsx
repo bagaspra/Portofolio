@@ -74,7 +74,7 @@ export default function PortfolioClient({ data }: Props) {
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}>
           <div className="text-[20px] text-gray-500 flex items-center justify-center gap-2.5 flex-wrap mb-1">
-            {hero.role1} &amp;
+            {hero.role1} &amp;{" "}
             <div className="bg-[#1C1C1E] text-white text-[13px] font-medium px-3.5 py-1.5 rounded-full flex items-center gap-1.5">
               <div className="w-[7px] h-[7px] rounded-full bg-[#378ADD]"></div>{hero.role2}
             </div>

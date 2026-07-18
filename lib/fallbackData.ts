@@ -11,7 +11,7 @@ export const fallbackHero: HeroData = {
   role1: "Full-Stack Developer",
   role2: "AI Engineer",
   description:
-    "I build intelligent web applications that combine clean engineering with practical machine learning — from menu-safety scanners to Japanese-learning tools.",
+    "Software developer focused on building functional web applications. Currently developing tools that integrate OCR, local databases, and lightweight NLP models to solve practical problems.",
   photo_url: "/profile.png",
   cv_url: "/resume.pdf",
   email: "bagasprasetyo36@gmail.com",
@@ -22,7 +22,7 @@ export const fallbackProjects: Project[] = [
     id: "static-shokusafe",
     name: "ShokuSafe",
     description:
-      "PWA that scans Japanese restaurant menus and detects Halal status + allergens locally with a 4-layer safety funnel (0% Halal false-negative).",
+      "A menu scanner PWA built with React, FastAPI, and PaddleOCR to help travelers identify Halal status and allergens. Uses a multi-layered verification funnel to guarantee zero false-negative safety.",
     category: "combo",
     github_url: "https://github.com/bagaspra07/ShokuSafe",
     demo_url: "http://43.133.37.252:4173",
@@ -33,7 +33,7 @@ export const fallbackProjects: Project[] = [
     id: "static-portfolio",
     name: "Portfolio Website",
     description:
-      "This site — a Next.js 16 portfolio with Supabase backend, Auth.js admin, and Framer Motion animations.",
+      "Personal showcase website built using Next.js 16 (App Router), Tailwind CSS v4, and Supabase. Features an administrative panel for project catalog management.",
     category: "web",
     github_url: "https://github.com/bagaspra07",
     demo_url: "",
@@ -98,7 +98,7 @@ export const fallbackExperience: Experience[] = [
     id: "static-exp-1",
     title: "Self-Taught Full-Stack & AI Developer",
     subtitle: "Personal Projects & Portfolio",
-    date_range: "2025 — Present",
+    date_range: "2025 - Present",
     type: "work",
     sort_order: 1,
   },
