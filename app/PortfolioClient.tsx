@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Github, Linkedin, Twitter, Instagram, Mail, ExternalLink, Eye, Copy, Code2, BrainCircuit, Layers } from "lucide-react";
+import { Github, Linkedin, Twitter, Instagram, Mail, ExternalLink, Eye, Copy, Code2, BrainCircuit, Layers, Check, Clock, Briefcase, GraduationCap } from "lucide-react";
 import { toast } from "sonner";
 import type { HeroData, Project, SkillGroup, Experience, ContactLink } from "@/types/index";
 
@@ -231,21 +231,56 @@ export default function PortfolioClient({ data }: Props) {
 
       {/* Experience */}
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} id="experience" className="py-10 px-7 scroll-mt-20">
-        <div className="mb-4"><span className="text-[11px] text-[#378ADD] font-medium tracking-widest uppercase">Experience & Education</span></div>
-        <div className="flex flex-col">
-          {experience.map((item, i) => (
-            <div key={item.id} className={`flex gap-3.5 ${i !== experience.length - 1 ? 'pb-6' : ''}`}>
-              <div className="flex flex-col items-center">
-                <div className={`w-2.5 h-2.5 rounded-full mt-1 shrink-0 ${item.type === 'work' ? 'bg-[#378ADD]' : 'bg-[#5DCAA5]'}`}></div>
-                {i !== experience.length - 1 && <div className="w-[1px] flex-1 bg-black/10 mt-1.5"></div>}
+        <div className="mb-8"><span className="text-[11px] text-[#378ADD] font-medium tracking-widest uppercase">Experience & Education</span></div>
+        <div className="flex flex-col relative pl-2">
+          {experience.map((item, i) => {
+            const isFirst = i === 0;
+            const Icon = item.type === "work" ? Briefcase : GraduationCap;
+
+            return (
+              <div key={item.id} className="relative flex gap-6 pb-8 last:pb-0">
+                {/* Timeline Line & Node */}
+                <div className="flex flex-col items-center">
+                  {/* Circle Node */}
+                  <div 
+                    className={`w-9 h-9 rounded-full flex items-center justify-center border-2 z-10 shrink-0 transition-colors duration-300 ${
+                      isFirst 
+                        ? "bg-[#378ADD] border-[#378ADD] text-white shadow-xs" 
+                        : "bg-white border-gray-200 text-gray-400"
+                    }`}
+                  >
+                    {isFirst ? (
+                      <Check size={16} strokeWidth={2.5} />
+                    ) : (
+                      <Icon size={15} strokeWidth={2} />
+                    )}
+                  </div>
+                  
+                  {/* Connecting Line */}
+                  {i !== experience.length - 1 && (
+                    <div 
+                      className={`w-[2px] flex-1 absolute top-9 bottom-0 left-[17px] -z-0 ${
+                        isFirst ? "bg-gradient-to-b from-[#378ADD] to-gray-200" : "bg-gray-200"
+                      }`}
+                    />
+                  )}
+                </div>
+
+                {/* Content Card */}
+                <div className="flex-1 pt-1">
+                  <span className="text-[10px] font-mono tracking-wider text-gray-400 block mb-1">
+                    {item.date_range}
+                  </span>
+                  <h3 className="text-sm font-semibold text-gray-900 leading-none mb-1">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs text-gray-500">
+                    {item.subtitle}
+                  </p>
+                </div>
               </div>
-              <div>
-                <div className="text-xs font-semibold text-gray-900">{item.title}</div>
-                <div className="text-[11px] text-gray-500 mt-0.5">{item.subtitle}</div>
-                <div className={`text-[10px] inline-block mt-1 px-2 py-0.5 rounded-full ${item.type === 'work' ? 'bg-[#E6F1FB] text-[#378ADD]' : 'bg-[#EAF3DE] text-[#3B6D11]'}`}>{item.date_range}</div>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </motion.div>
 
