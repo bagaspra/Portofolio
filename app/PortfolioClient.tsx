@@ -52,7 +52,12 @@ export default function PortfolioClient({ data }: Props) {
           <a href="#experience" className="text-xs text-white/55 px-3 py-1.5 rounded-full hover:bg-white/10 hover:text-white transition">Experience</a>
           <div className="w-[3px] h-[3px] rounded-full bg-white/20"></div>
           <a href="#contact" className="text-xs text-white/55 px-3 py-1.5 rounded-full hover:bg-white/10 hover:text-white transition">Contact</a>
-          <a href={hero.cv_url} target="_blank" className="bg-white/10 text-white text-[11px] px-3.5 py-1.5 rounded-full border border-white/20 hover:bg-white/20 transition ml-2">Resume</a>
+          <button
+            onClick={() => window.open(hero.cv_url, "_blank", "noopener,noreferrer")}
+            className="bg-white/10 text-white text-[11px] px-3.5 py-1.5 rounded-full border border-white/20 hover:bg-white/20 transition ml-2 cursor-pointer"
+          >
+            Resume
+          </button>
         </div>
       </motion.div>
 
