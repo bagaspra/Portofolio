@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Github, Linkedin, Twitter, Instagram, Mail, ExternalLink, Eye, Copy, Code2, BrainCircuit, Layers, Check, Clock, Briefcase, GraduationCap } from "lucide-react";
+import { Github, Linkedin, Twitter, Instagram, Mail, ExternalLink, Eye, Copy, Code2, BrainCircuit, Layers, Check, Clock, Briefcase, GraduationCap, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import type { HeroData, Project, SkillGroup, Experience, ContactLink } from "@/types/index";
 
@@ -19,6 +19,7 @@ interface Props {
 export default function PortfolioClient({ data }: Props) {
   const { hero, projects, skillGroups, experience, contact } = data;
   const [activeTab, setActiveTab] = useState("All");
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const filterProjects = () => {
     if (activeTab === "All") return projects;
@@ -147,16 +148,21 @@ export default function PortfolioClient({ data }: Props) {
                 key={p.id} 
                 className="bg-white rounded-2xl overflow-hidden border border-black/10 shadow-sm hover:shadow-md transition"
               >
-                <div className={`h-[180px] relative flex items-center justify-center overflow-hidden ${p.category === 'web' ? 'bg-[#F5F5F5] text-gray-500' : p.category === 'ai' ? 'bg-[#E6F1FB] text-[#378ADD]' : 'bg-[#EAF3DE] text-[#3B6D11]'}`}>
+                {/* Top Visual Cover Section (Hover Trigger) */}
+                <div 
+                  className={`h-[180px] relative flex items-center justify-center overflow-hidden ${p.category === 'web' ? 'bg-[#F5F5F5] text-gray-500' : p.category === 'ai' ? 'bg-[#E6F1FB] text-[#378ADD]' : 'bg-[#EAF3DE] text-[#3B6D11]'}`}
+                  onMouseEnter={() => setHoveredId(p.id)}
+                  onMouseLeave={() => setHoveredId(null)}
+                >
                   {p.thumbnail_emoji ? (
                     /^(https?:\/\/|\/)/.test(p.thumbnail_emoji) ? (
                       <img
                         src={p.thumbnail_emoji}
                         alt={p.name}
-                        className="w-full h-full object-cover"
+                        className={`w-full h-full object-cover transition-transform duration-300 ${hoveredId === p.id ? 'scale-90' : 'scale-100'}`}
                       />
                     ) : (
-                      <span className="text-5xl leading-none">{p.thumbnail_emoji}</span>
+                      <span className={`text-5xl leading-none transition-transform duration-300 ${hoveredId === p.id ? 'scale-90' : 'scale-100'}`}>{p.thumbnail_emoji}</span>
                     )
                   ) : (
                     <>
@@ -165,39 +171,77 @@ export default function PortfolioClient({ data }: Props) {
                       {p.category === 'combo' && <Layers size={28} strokeWidth={1.5} />}
                     </>
                   )}
+
+                  {/* Blur Overlay with Action Buttons */}
+                  <AnimatePresence>
+                    {hoveredId === p.id && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute inset-0 bg-white/70 backdrop-blur-sm flex items-center justify-center"
+                      >
+                        <div className="flex gap-2 mx-auto">
+                          {p.github_url && (
+                            <motion.a
+                              href={p.github_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              initial={{ y: -20, opacity: 0 }}
+                              animate={{ y: 0, opacity: 1 }}
+                              exit={{ y: -20, opacity: 0 }}
+                              transition={{ type: "spring", stiffness: 400, damping: 25, delay: 0.1 }}
+                              className="bg-[#1C1C1E] text-white cursor-pointer px-3 py-1.5 rounded-lg font-medium shadow-lg hover:bg-black transition-all duration-200 text-[10px] flex items-center gap-1.5"
+                            >
+                              <Github size={12} strokeWidth={2.5} />
+                              GitHub
+                            </motion.a>
+                          )}
+                          {p.demo_url && (
+                            <motion.a
+                              href={p.demo_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              initial={{ y: -20, opacity: 0 }}
+                              animate={{ y: 0, opacity: 1 }}
+                              exit={{ y: -20, opacity: 0 }}
+                              transition={{ type: "spring", stiffness: 400, damping: 25, delay: 0.2 }}
+                              className="bg-white text-gray-900 border border-black/10 cursor-pointer px-3 py-1.5 rounded-lg font-medium shadow-lg hover:bg-gray-50 transition-all duration-200 text-[10px] flex items-center gap-1.5"
+                            >
+                              <ExternalLink size={12} strokeWidth={2.5} />
+                              Live Demo
+                            </motion.a>
+                          )}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
+
+                {/* Bottom Content Section */}
                 <div className="p-3">
-                  <div className={`text-[10px] px-2 py-0.5 rounded-full inline-block mb-1.5 ${p.category === 'web' ? 'bg-[#F0F0F0] text-gray-600' : p.category === 'ai' ? 'bg-[#E6F1FB] text-[#185FA5]' : 'bg-[#EAF3DE] text-[#3B6D11]'}`}>
-                    {p.category === 'web' ? 'Web Dev' : p.category === 'ai' ? 'AI / ML' : 'Web + AI'}
-                  </div>
-                  <div className="text-xs font-semibold text-gray-900">{p.name}</div>
-                  <div className="text-[11px] text-gray-400 mt-1 leading-relaxed line-clamp-2">{p.description}</div>
-                  {(p.github_url || p.demo_url) && (
-                    <div className="flex gap-2 mt-4 pt-3 border-t border-black/5">
-                      {p.github_url && (
-                        <a 
-                          href={p.github_url} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-1.5 text-[10px] font-medium px-3 py-1.5 rounded-lg bg-[#1C1C1E] text-white hover:bg-black transition shadow-sm"
-                        >
-                          <Github size={12} strokeWidth={2.5} />
-                          GitHub
-                        </a>
-                      )}
-                      {p.demo_url && (
-                        <a 
-                          href={p.demo_url} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-1.5 text-[10px] font-medium px-3 py-1.5 rounded-lg bg-white border border-black/10 text-gray-700 hover:bg-gray-50 transition shadow-sm"
-                        >
-                          <ExternalLink size={12} strokeWidth={2.5} />
-                          Live Demo
-                        </a>
-                      )}
+                  {/* Status Pills */}
+                  <div className="flex items-center justify-between mb-2.5">
+                    <div className="flex items-center gap-1.5">
+                      <div className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${p.category === 'web' ? 'bg-[#F0F0F0] text-gray-600' : p.category === 'ai' ? 'bg-[#E6F1FB] text-[#185FA5]' : 'bg-[#EAF3DE] text-[#3B6D11]'}`}>
+                        {p.category === 'web' ? 'Web Dev' : p.category === 'ai' ? 'AI / ML' : 'Web + AI'}
+                      </div>
+                      <motion.div 
+                        className="bg-[#E6F1FB] text-[#378ADD] p-1.5 rounded-full"
+                        whileHover={{ rotate: 15, scale: 1.1 }}
+                      >
+                        <Sparkles className="w-2.5 h-2.5" />
+                      </motion.div>
                     </div>
-                  )}
+                    <div className="text-[10px] px-2 py-0.5 rounded-full font-medium bg-gray-100 text-gray-600">
+                      Published
+                    </div>
+                  </div>
+
+                  {/* Title and Subtitle */}
+                  <div className="text-xs font-semibold text-gray-900">{p.name}</div>
+                  <div className="text-[11px] text-gray-400 mt-0.5 leading-relaxed line-clamp-2">{p.description}</div>
                 </div>
               </motion.div>
             ))}
