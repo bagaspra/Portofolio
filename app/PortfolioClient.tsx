@@ -144,11 +144,15 @@ export default function PortfolioClient({ data }: Props) {
               >
                 <div className={`h-[180px] relative flex items-center justify-center overflow-hidden ${p.category === 'web' ? 'bg-[#F5F5F5] text-gray-500' : p.category === 'ai' ? 'bg-[#E6F1FB] text-[#378ADD]' : 'bg-[#EAF3DE] text-[#3B6D11]'}`}>
                   {p.thumbnail_emoji ? (
-                    <img
-                      src={p.thumbnail_emoji}
-                      alt={p.name}
-                      className="w-full h-full object-cover"
-                    />
+                    /^(https?:\/\/|\/)/.test(p.thumbnail_emoji) ? (
+                      <img
+                        src={p.thumbnail_emoji}
+                        alt={p.name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-5xl leading-none">{p.thumbnail_emoji}</span>
+                    )
                   ) : (
                     <>
                       {p.category === 'web' && <Code2 size={28} strokeWidth={1.5} />}
