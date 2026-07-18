@@ -255,19 +255,37 @@ export default function PortfolioClient({ data }: Props) {
       <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} id="skills" className="py-10 px-7 scroll-mt-20">
         <div className="mb-4"><span className="text-[11px] text-[#378ADD] font-medium tracking-widest uppercase">Skills</span></div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          {skillGroups.map((g, i) => (
-            <div key={g.id} className="bg-white rounded-[14px] p-4 border border-black/10 shadow-sm">
-              <div className="text-[11px] font-semibold text-gray-900 mb-3 flex items-center gap-1.5">
-                <div className={`w-2 h-2 rounded-full ${i % 3 === 0 ? 'bg-[#378ADD]' : i % 3 === 1 ? 'bg-[#5DCAA5]' : 'bg-[#7F77DD]'}`}></div>
-                {g.name}
-              </div>
-              <div className="flex flex-wrap gap-1.5">
-                {g.skills?.map(s => (
-                  <div key={s.id} className="text-[10px] bg-[#F5F5F5] text-gray-600 px-2.5 py-1 rounded-full">{s.name}</div>
-                ))}
-              </div>
-            </div>
-          ))}
+          {skillGroups.map((g, i) => {
+            const palette =
+              g.name.toLowerCase().includes("ai")
+                ? { card: "bg-[#E6F1FB]", accent: "bg-[#185FA5]", text: "text-[#185FA5]", tag: "bg-white/80 text-[#185FA5]" }
+                : g.name.toLowerCase().includes("web")
+                ? { card: "bg-[#F5F5F5]", accent: "bg-[#378ADD]", text: "text-[#378ADD]", tag: "bg-white/80 text-[#378ADD]" }
+                : { card: "bg-[#EAF3DE]", accent: "bg-[#3B6D11]", text: "text-[#3B6D11]", tag: "bg-white/80 text-[#3B6D11]" };
+            const GroupIcon = g.icon === "BrainCircuit" ? BrainCircuit : g.icon === "Layers" ? Layers : Code2;
+
+            return (
+              <motion.div
+                key={g.id}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.08 }}
+                className={`${palette.card} rounded-[14px] p-4 border border-black/5 shadow-sm hover:shadow-md transition-shadow`}
+              >
+                <div className={`text-[11px] font-semibold mb-3 flex items-center gap-1.5 ${palette.text}`}>
+                  <div className={`w-2 h-2 rounded-full ${palette.accent}`}></div>
+                  <GroupIcon size={13} strokeWidth={2} />
+                  {g.name}
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {g.skills?.map(s => (
+                    <div key={s.id} className={`text-[10px] px-2.5 py-1 rounded-full font-medium ${palette.tag}`}>{s.name}</div>
+                  ))}
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </motion.div>
 
